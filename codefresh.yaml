@@ -1,5 +1,8 @@
 version: '1.0'
 steps:
+  gradle:
+    image: gradle:4.8.1
+    entrypoint: "gradle clean build" 
   build:
     type: build
     image_name: bevyx/demo-bookinfo-reviews
