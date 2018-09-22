@@ -22,7 +22,7 @@ RUN /opt/ibm/wlp/bin/installUtility install  --acceptLicense /opt/ibm/wlp/usr/se
 
 ARG service_version
 ARG enable_ratings=true
-ARG star_color
+ARG star_color=red
 ENV SERVICE_VERSION ${service_version:-v1}
 ENV ENABLE_RATINGS ${enable_ratings:-false}
 ENV STAR_COLOR ${star_color:-black}
