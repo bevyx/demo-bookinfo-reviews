@@ -1,14 +1,14 @@
 version: '1.0'
 steps:
   gradle:
-    image: gradle:4.8.1
-    entrypoint: "gradle clean build"
+    image: bevyx/gradle-root:latest
+    cmd: ["gradle", "clean", "build"]
   build:
     type: build
     image_name: bevyx/demo-bookinfo-reviews
     build_arguments:
       - service_version=${{CF_BRANCH_TAG_NORMALIZED}}
-    working_directory: ./
+    working_directory: ./reviews-wlpcfg
     tag: ${{CF_BRANCH_TAG_NORMALIZED}}
   push:
     type: push
