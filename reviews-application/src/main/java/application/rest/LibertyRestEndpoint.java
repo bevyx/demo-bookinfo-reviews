@@ -83,7 +83,7 @@ public class LibertyRestEndpoint extends Application {
     }
     
     private JsonObject getRatings(String productId, String user, String xreq, String xtraceid, String xspanid,
-                                  String xparentspanid, String xsampled, String xflags, String xotspan){
+                                  String xparentspanid, String xsampled, String xflags, String xotspan, String xreroute){
       ClientBuilder cb = ClientBuilder.newBuilder();
       String timeout = star_color.equals("black") ? "10000" : "2500";
       cb.property("com.ibm.ws.jaxrs.client.connection.timeout", timeout);
@@ -115,6 +115,9 @@ public class LibertyRestEndpoint extends Application {
       if(user!=null) {
         builder.header("end-user", user);
       }
+      if(xreroute!=null) {
+        builder.header("x-re-route", xreroute);
+      }
       Response r = builder.get();
       int statusCode = r.getStatusInfo().getStatusCode();
       if (statusCode == Response.Status.OK.getStatusCode() ) {
@@ -145,12 +148,13 @@ public class LibertyRestEndpoint extends Application {
                                     @HeaderParam("x-b3-parentspanid") String xparentspanid,
                                     @HeaderParam("x-b3-sampled") String xsampled,
                                     @HeaderParam("x-b3-flags") String xflags,
-                                    @HeaderParam("x-ot-span-context") String xotspan) {
+                                    @HeaderParam("x-ot-span-context") String xotspan,
+                                    @HeaderParam("x-re-route") String xreroute) {
       int starsReviewer1 = -1;
       int starsReviewer2 = -1;
 
       if (ratings_enabled) {
-        JsonObject ratingsResponse = getRatings(Integer.toString(productId), user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
+        JsonObject ratingsResponse = getRatings(Integer.toString(productId), user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan, xreroute);
         if (ratingsResponse != null) {
           if (ratingsResponse.containsKey("ratings")) {
             JsonObject ratings = ratingsResponse.getJsonObject("ratings");
